@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { ExampleComponent } from 'react-dashboard-agenda'
+import { ChunksArea } from 'react-dashboard-agenda'
 import 'react-dashboard-agenda/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <ChunksArea chunksTime={15} />
 }
 
 export default App

@@ -1,6 +1,9 @@
 import React from 'react'
 import styles from './styles.module.css'
+import ChunksArea from './components/ChunksArea'
 
-export const ExampleComponent = ({ text }) => {
+const ExampleComponent = ({ text }) => {
   return <div className={styles.test}>Example Component: {text}</div>
 }
+
+export { ChunksArea, ExampleComponent }

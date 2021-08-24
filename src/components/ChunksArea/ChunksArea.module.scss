@@ -1,0 +1,25 @@
+.chunksAreaWrap {
+  display: flex;
+  flex-flow: row nowrap;
+
+  .chunk {
+    display: flex;
+    width: 38px;
+    height: 38px;
+    margin: 4px 4px;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    border: 1px solid #CCD1D9;
+    border-radius: 4px;
+    &.blocked {
+      background-color: #E4E7EB;
+      border-color: #E4E7EB;
+      transition: all ease-out 200ms;
+    }
+    &.fixedSize {
+      min-width: 38px;
+      min-height: 38px;
+    }
+  }
+}
