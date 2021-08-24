@@ -1,28 +1,33 @@
 # react-dashboard-agenda
 
-> Dashboard Agenda for reacr
+> Dashboard Agenda for react
 
 [![NPM](https://img.shields.io/npm/v/react-dashboard-agenda.svg)](https://www.npmjs.com/package/react-dashboard-agenda) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save react-dashboard-agenda
+npm install --save @yana4961/react-dashboard-agenda
 ```
+
+## React version
+React >17.0.2
 
 ## Usage
 
-```jsx
-import React, { Component } from 'react'
+import ChunksArea and stylesheet
 
-import MyComponent from 'react-dashboard-agenda'
+```jsx
+import React from 'react'
+
+import { ChunksArea } from 'react-dashboard-agenda'
 import 'react-dashboard-agenda/dist/index.css'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const App = () => {
+  return <ChunksArea chunksTime={15} />
 }
+
+export default App
 ```
 
 ## License
