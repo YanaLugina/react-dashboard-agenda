@@ -4,6 +4,7 @@
   "description": "Dashboard Agenda react component",
   "author": "YanaLugina &lt;yana4961@gmail.com&gt;",
   "license": "MIT",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YanaLugina/react-dashboard-agenda.git"
