@@ -1,45 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ChunkItem from '../ChunkItem'
+import { addMinutes, formatISO, startOfDay } from 'date-fns'
 
 import style from './ChunksArea.module.scss'
 
-const ChunkFree = ({ id, handleClickOnFree = () => {}, classes = [] }) => {
-  return (
-    <div
-      onClick={handleClickOnFree}
-      className={
-        style.chunk + classes.map((item) => ' ' + style[item]).join('')
-      }
-    >
-      {id}
-    </div>
-  )
-}
-
-const ChunksArea = ({ chunksTime = 30 }) => {
+const ChunksArea = ({
+  locale = 'Asia/Vladivostok',
+  date = new Date(),
+  id = '',
+  chunksBlocked = [],
+  chunksTime = 30,
+  handleClickChunk = () => {},
+  classes = []
+}) => {
   const chunksCount = (24 * 60) / chunksTime
 
-  const handleClickOnFree = (data) => {
-    const hh = Math.floor(data)
-    const minetsRaw = data.toFixed(2) * 100 + ''
-    const minetsRawPercent = +minetsRaw.slice(-2) / 100
-    const mm = minetsRawPercent ? Math.floor(60 * minetsRawPercent) : 0
-
-    console.log('clicked hh:', hh)
-    console.log('minets mm:', mm)
+  const handleClickOnFree = (from, to, state) => {
+    handleClickChunk(from, to, state)
   }
 
   const chunksCreate = () => {
     const elems = []
 
+    const dateLocale = formatISO(startOfDay(new Date(date)), {
+      locale: locale
+    })
+
+    const chunkFrom = (i) => addMinutes(new Date(dateLocale), chunksTime * i)
+    const chunkTo = (i) => {
+      return addMinutes(new Date(dateLocale), chunksTime * i + chunksTime)
+    }
+
     for (let i = 0; i < chunksCount; i++) {
       elems.push(
-        <ChunkFree
+        <ChunkItem
           key={`chunk_${i}`}
           id={i + 1}
-          classes={['fixedSize']}
+          timeFrom={formatISO(chunkFrom(i))}
+          timeTo={formatISO(chunkTo(i))}
+          classes={classes}
           handleClickOnFree={() =>
-            handleClickOnFree(((i + 1) * chunksTime) / 60)
+            handleClickOnFree(
+              formatISO(chunkFrom(i)),
+              formatISO(chunkTo(i)),
+              'hz'
+            )
           }
         />
       )
@@ -50,11 +56,24 @@ const ChunksArea = ({ chunksTime = 30 }) => {
 
   const chunks = chunksCreate()
 
-  return <div className={style.chunksAreaWrap}>{chunks}</div>
+  return (
+    <div
+      id={id || `ChunksArea_${+new Date()}`}
+      className={style.chunksAreaWrap}
+    >
+      {chunks}
+    </div>
+  )
 }
 
 ChunksArea.propTypes = {
-  chunksTime: PropTypes.number
+  chunksTime: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  chunksBlocked: PropTypes.array,
+  classes: PropTypes.arrayOf(PropTypes.oneOf(['fixedSize'])),
+  date: PropTypes.string,
+  locale: PropTypes.string,
+  handleClickChunk: PropTypes.func
 }
 
 export default ChunksArea
