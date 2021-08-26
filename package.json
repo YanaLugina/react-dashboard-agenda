@@ -79,5 +79,7 @@
     "dropdown",
     "tiny"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "date-fns": "^2.23.0"
+  }
 }
