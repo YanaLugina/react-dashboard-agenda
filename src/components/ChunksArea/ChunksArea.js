@@ -4,12 +4,13 @@ import ChunkItem from '../ChunkItem'
 import { addMinutes, formatISO, startOfDay } from 'date-fns'
 
 import style from './ChunksArea.module.scss'
+import { dateInRange } from '../../utils'
 
 const ChunksArea = ({
   locale = 'Asia/Vladivostok',
   date = new Date(),
   id = '',
-  chunksBlocked = [],
+  chunksFree = [],
   chunksTime = 30,
   handleClickChunk = () => {},
   classes = []
@@ -33,19 +34,20 @@ const ChunksArea = ({
     }
 
     for (let i = 0; i < chunksCount; i++) {
+      const fromISO = formatISO(chunkFrom(i))
+      const toISO = formatISO(chunkTo(i))
+      const isAllowTime = dateInRange(fromISO, toISO, chunksFree)
+      const classesChunk = isAllowTime ? classes : [...classes, 'blocked']
       elems.push(
         <ChunkItem
           key={`chunk_${i}`}
           id={i + 1}
-          timeFrom={formatISO(chunkFrom(i))}
-          timeTo={formatISO(chunkTo(i))}
-          classes={classes}
+          timeFrom={fromISO}
+          timeTo={toISO}
+          isAllow={isAllowTime}
+          classes={classesChunk}
           handleClickOnFree={() =>
-            handleClickOnFree(
-              formatISO(chunkFrom(i)),
-              formatISO(chunkTo(i)),
-              'hz'
-            )
+            handleClickOnFree(fromISO, toISO, isAllowTime)
           }
         />
       )
@@ -69,7 +71,7 @@ const ChunksArea = ({
 ChunksArea.propTypes = {
   chunksTime: PropTypes.number,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  chunksBlocked: PropTypes.array,
+  chunksFree: PropTypes.array,
   classes: PropTypes.arrayOf(PropTypes.oneOf(['fixedSize'])),
   date: PropTypes.string,
   locale: PropTypes.string,
