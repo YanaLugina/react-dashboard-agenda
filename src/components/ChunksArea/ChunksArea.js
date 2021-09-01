@@ -36,7 +36,13 @@ const ChunksArea = ({
     for (let i = 0; i < chunksCount; i++) {
       const fromISO = formatISO(chunkFrom(i))
       const toISO = formatISO(chunkTo(i))
-      const isAllowTime = dateInRange(fromISO, toISO, chunksFree)
+
+      let isAllowTime = true
+
+      if (chunksFree.length > 0 === true) {
+        isAllowTime = dateInRange(fromISO, toISO, chunksFree)
+      }
+
       const classesChunk = isAllowTime ? classes : [...classes, 'blocked']
       elems.push(
         <ChunkItem
