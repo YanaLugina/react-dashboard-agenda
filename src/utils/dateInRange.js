@@ -12,19 +12,29 @@ function dateInRange(
   ) {
     return false
   }
+
   let allow = false
+
   for (let i = 0; i < arrAllowTimeRanges.length; i++) {
-    if (allow === false) {
-      allow = !!(
-        compareDesc(
-          new Date(arrAllowTimeRanges[i][rangeNames[0]]),
-          new Date(dateFrom)
-        ) !== -1 &&
-        compareDesc(
-          new Date(dateTo),
-          new Date(arrAllowTimeRanges[i][rangeNames[1]])
-        ) !== -1
-      )
+    if (
+      Object.prototype.hasOwnProperty.call(
+        arrAllowTimeRanges[i],
+        rangeNames[0]
+      ) &&
+      Object.prototype.hasOwnProperty.call(arrAllowTimeRanges[i], rangeNames[1])
+    ) {
+      if (allow === false) {
+        allow = !!(
+          compareDesc(
+            new Date(arrAllowTimeRanges[i][rangeNames[0]]),
+            new Date(dateFrom)
+          ) !== -1 &&
+          compareDesc(
+            new Date(dateTo),
+            new Date(arrAllowTimeRanges[i][rangeNames[1]])
+          ) !== -1
+        )
+      }
     }
   }
   return allow
