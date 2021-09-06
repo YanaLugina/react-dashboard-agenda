@@ -13,12 +13,14 @@ const ChunksArea = ({
   chunksFree = [],
   chunksTime = 30,
   handleClickChunk = () => {},
-  classes = []
+  classes = [],
+  reserveTimes = [],
+  types = []
 }) => {
   const chunksCount = (24 * 60) / chunksTime
 
-  const handleClickOnFree = (from, to, state) => {
-    handleClickChunk(from, to, state)
+  const handleClickOnFree = (from, to, state, ...more) => {
+    handleClickChunk(from, to, state, more)
   }
 
   const chunksCreate = () => {
@@ -43,17 +45,31 @@ const ChunksArea = ({
         isAllowTime = dateInRange(fromISO, toISO, chunksFree)
       }
 
+      let isCheckedTime = { type: '', isChecked: false, data: {} }
+      if (reserveTimes.length > 0 === true) {
+        isCheckedTime = dateInRange(
+          fromISO,
+          toISO,
+          reserveTimes,
+          ['from', 'to'],
+          true
+        )
+      }
+
       const classesChunk = isAllowTime ? classes : [...classes, 'blocked']
       elems.push(
         <ChunkItem
           key={`chunk_${i}`}
           id={i + 1}
-          timeFrom={fromISO}
-          timeTo={toISO}
           isAllow={isAllowTime}
           classes={classesChunk}
+          styleItem={
+            types.find((type) => type.id === isCheckedTime.type)
+              ? types.find((type) => type.id === isCheckedTime.type).color
+              : null
+          }
           handleClickOnFree={() =>
-            handleClickOnFree(fromISO, toISO, isAllowTime)
+            handleClickOnFree(fromISO, toISO, isAllowTime, isCheckedTime)
           }
         />
       )
