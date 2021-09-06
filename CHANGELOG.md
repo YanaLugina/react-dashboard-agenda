@@ -1,3 +1,6 @@
+## 2021-09-07
+Was added new props with checked time ranges and with data for set under agenda, was added prop with layers colors and ids.
+
 ## 2021-08-31
 Was added util for get free times from array chunksFree with objects and was marked denied chunks
 

@@ -3,7 +3,8 @@ function dateInRange(
   dateFrom,
   dateTo,
   arrAllowTimeRanges,
-  rangeNames = ['from', 'to']
+  rangeNames = ['from', 'to'],
+  returnObject = false
 ) {
   if (
     Array.isArray(arrAllowTimeRanges) === false ||
@@ -14,6 +15,7 @@ function dateInRange(
   }
 
   let allow = false
+  let objAllow = { isChecked: false, type: '', data: {} }
 
   for (let i = 0; i < arrAllowTimeRanges.length; i++) {
     if (
@@ -34,8 +36,15 @@ function dateInRange(
             new Date(arrAllowTimeRanges[i][rangeNames[1]])
           ) !== -1
         )
+        if (allow) {
+          objAllow = { isChecked: true, ...arrAllowTimeRanges[i] }
+        }
       }
     }
+  }
+
+  if (returnObject) {
+    return objAllow
   }
   return allow
 }
