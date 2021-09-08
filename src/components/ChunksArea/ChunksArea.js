@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ChunkItem from '../ChunkItem'
 import { addMinutes, formatISO, startOfDay } from 'date-fns'
@@ -17,13 +17,14 @@ const ChunksArea = ({
   reserveTimes = [],
   types = []
 }) => {
+  const [filterLayer, setFilterLayer] = useState(['meetup'])
   const chunksCount = (24 * 60) / chunksTime
 
   const handleClickOnFree = (from, to, state, ...more) => {
     handleClickChunk(from, to, state, more)
   }
 
-  const chunksCreate = () => {
+  const chunksCreate = (filterLayer) => {
     const elems = []
 
     const dateLocale = formatISO(startOfDay(new Date(date)), {
@@ -45,12 +46,21 @@ const ChunksArea = ({
         isAllowTime = dateInRange(fromISO, toISO, chunksFree)
       }
 
-      let isCheckedTime = { type: '', isChecked: false, data: {} }
-      if (reserveTimes.length > 0 === true) {
+      let isCheckedTime = { type: '', isBusy: false, data: {} }
+      const reserveTimesFiltered =
+        reserveTimes.length > 0
+          ? reserveTimes.filter((item) =>
+              filterLayer.length > 0 === true
+                ? filterLayer.includes(item.type)
+                : item
+            )
+          : reserveTimes
+
+      if (reserveTimesFiltered.length > 0 === true) {
         isCheckedTime = dateInRange(
           fromISO,
           toISO,
-          reserveTimes,
+          reserveTimesFiltered,
           ['from', 'to'],
           true
         )
@@ -78,14 +88,19 @@ const ChunksArea = ({
     return elems
   }
 
-  const chunks = chunksCreate()
+  const chunks = chunksCreate(filterLayer)
 
   return (
-    <div
-      id={id || `ChunksArea_${+new Date()}`}
-      className={style.chunksAreaWrap}
-    >
-      {chunks}
+    <div>
+      <div
+        id={id || `ChunksArea_${+new Date()}`}
+        className={style.chunksAreaWrap}
+      >
+        {chunks}
+      </div>
+      <div>
+        <button onClick={() => setFilterLayer([])}>Layers</button>
+      </div>
     </div>
   )
 }

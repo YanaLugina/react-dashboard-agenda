@@ -1,3 +1,6 @@
+## 2021-09-09
+Was created filter for picked layers
+
 ## 2021-09-07
 Was added new props with checked time ranges and with data for set under agenda, was added prop with layers colors and ids.
 

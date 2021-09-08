@@ -13,7 +13,7 @@ const ChunkItem = ({
       onClick={handleClickOnFree}
       style={{
         backgroundColor: styleItem,
-        borderColor: styleItem && 'transparent'
+        borderColor: styleItem
       }}
       className={
         style.chunk + classes.map((item) => ' ' + style[item]).join('')
