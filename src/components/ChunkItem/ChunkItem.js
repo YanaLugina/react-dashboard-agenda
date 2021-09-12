@@ -11,10 +11,7 @@ const ChunkItem = ({
   return (
     <div
       onClick={handleClickOnFree}
-      style={{
-        backgroundColor: styleItem,
-        borderColor: styleItem
-      }}
+      style={styleItem}
       className={
         style.chunk + classes.map((item) => ' ' + style[item]).join('')
       }
@@ -28,7 +25,7 @@ ChunkItem.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   classes: PropTypes.arrayOf(PropTypes.oneOf(['fixedSize', 'blocked'])),
   handleClickOnFree: PropTypes.func,
-  styleItem: PropTypes.string
+  styleItem: PropTypes.object
 }
 
 export default ChunkItem

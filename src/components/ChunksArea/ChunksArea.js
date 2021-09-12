@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ChunkItem from '../ChunkItem'
+import TimeLine from '../TimeLine'
 import { addMinutes, formatISO, startOfDay } from 'date-fns'
 
 import style from './ChunksArea.module.scss'
 import { dateInRange } from '../../utils'
 
 const ChunksArea = ({
+  chunksStyle,
   locale = 'Asia/Vladivostok',
   date = new Date(),
   id = '',
@@ -25,8 +27,7 @@ const ChunksArea = ({
   }
 
   const chunksCreate = (filterLayer) => {
-    const elems = []
-
+    // helpers ----->
     const dateLocale = formatISO(startOfDay(new Date(date)), {
       locale: locale
     })
@@ -36,9 +37,11 @@ const ChunksArea = ({
       return addMinutes(new Date(dateLocale), chunksTime * i + chunksTime)
     }
 
-    for (let i = 0; i < chunksCount; i++) {
-      const fromISO = formatISO(chunkFrom(i))
-      const toISO = formatISO(chunkTo(i))
+    // helpers <-----
+
+    const elems = [...Array(chunksCount).keys()].map((item, key) => {
+      const fromISO = formatISO(chunkFrom(key))
+      const toISO = formatISO(chunkTo(key))
 
       let isAllowTime = true
 
@@ -66,24 +69,37 @@ const ChunksArea = ({
         )
       }
 
+      let styleItem
+
+      const typeFind = types.find((type) => type.id === isCheckedTime.type)
+
+      if (types && typeFind) {
+        styleItem = {
+          backgroundColor: typeFind.color,
+          borderColor: typeFind.color
+        }
+      }
+      if (chunksStyle) {
+        styleItem = {
+          ...styleItem,
+          ...chunksStyle
+        }
+      }
+
       const classesChunk = isAllowTime ? classes : [...classes, 'blocked']
-      elems.push(
+      return (
         <ChunkItem
-          key={`chunk_${i}`}
-          id={i + 1}
+          key={`chunk_${key + 1}`}
+          id={key + 1}
           isAllow={isAllowTime}
           classes={classesChunk}
-          styleItem={
-            types.find((type) => type.id === isCheckedTime.type)
-              ? types.find((type) => type.id === isCheckedTime.type).color
-              : null
-          }
+          styleItem={styleItem}
           handleClickOnFree={() =>
             handleClickOnFree(fromISO, toISO, isAllowTime, isCheckedTime)
           }
         />
       )
-    }
+    })
 
     return elems
   }
@@ -96,10 +112,16 @@ const ChunksArea = ({
         id={id || `ChunksArea_${+new Date()}`}
         className={style.chunksAreaWrap}
       >
-        {chunks}
+        <TimeLine>{chunks}</TimeLine>
       </div>
       <div>
-        <button onClick={() => setFilterLayer([])}>Layers</button>
+        <button
+          onClick={() =>
+            setFilterLayer((s) => (s.length > 0 ? [] : ['meetup']))
+          }
+        >
+          Layers
+        </button>
       </div>
     </div>
   )
@@ -112,7 +134,8 @@ ChunksArea.propTypes = {
   classes: PropTypes.arrayOf(PropTypes.oneOf(['fixedSize'])),
   date: PropTypes.string,
   locale: PropTypes.string,
-  handleClickChunk: PropTypes.func
+  handleClickChunk: PropTypes.func,
+  chunksStyle: PropTypes.object
 }
 
 export default ChunksArea

@@ -1,0 +1,14 @@
+.timeLineWrap {
+  display: flex;
+  flex-flow: column wrap;
+  .children {
+    display: flex;
+    flex-flow: row nowrap;
+
+  }
+  &.inverse {
+    .children {
+      flex-flow: column wrap;
+    }
+  }
+}

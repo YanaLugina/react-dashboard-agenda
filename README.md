@@ -32,6 +32,9 @@ const App = () => {
   <ChunksArea
     id='my_dashboard'
     chunksTime={60}
+    chunksStyle={{
+      margin: '4px 6px'
+    }}
     date='2021-08-27'
     classes={['fixedSize']}
     chunksFree={[
