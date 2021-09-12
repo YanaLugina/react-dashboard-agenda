@@ -1,3 +1,7 @@
+## 2021-09-13 
+Was created timesChunks container for x legend,
+was added props for create custom style chunks
+
 ## 2021-09-09
 Was created filter for picked layers
 
