@@ -1,3 +1,6 @@
+## 2021-09-14
+Was created legend for chunks. Was renamed classes for classesChunks
+
 ## 2021-09-13 
 Was created timesChunks container for x legend,
 was added props for create custom style chunks

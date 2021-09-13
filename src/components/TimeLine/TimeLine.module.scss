@@ -1,6 +1,22 @@
 .timeLineWrap {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: row wrap;
+  margin: 15px 10px;
+  .timeLegend {
+    height: 30px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: stretch;
+    justify-content: flex-end;
+    padding-bottom: 15px;
+    .timeLegendBrackets {
+      height: 5px;
+      width: 46px;
+      border: 1px solid grey;
+      border-bottom: none;
+    }
+  }
+
   .children {
     display: flex;
     flex-flow: row nowrap;
