@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ChunkItem from '../ChunkItem'
 import TimeLine from '../TimeLine'
-import { addMinutes, formatISO, startOfDay } from 'date-fns'
+import { formatISO } from 'date-fns'
 
 import style from './ChunksArea.module.scss'
-import { dateInRange } from '../../utils'
+import { chunkFrom, dateInRange, getDateLocale, chunkTo } from '../../utils'
 
 const ChunksArea = ({
   chunksStyle,
@@ -15,7 +15,7 @@ const ChunksArea = ({
   chunksFree = [],
   chunksTime = 30,
   handleClickChunk = () => {},
-  classes = [],
+  classesChunks = [],
   reserveTimes = [],
   types = []
 }) => {
@@ -28,20 +28,12 @@ const ChunksArea = ({
 
   const chunksCreate = (filterLayer) => {
     // helpers ----->
-    const dateLocale = formatISO(startOfDay(new Date(date)), {
-      locale: locale
-    })
-
-    const chunkFrom = (i) => addMinutes(new Date(dateLocale), chunksTime * i)
-    const chunkTo = (i) => {
-      return addMinutes(new Date(dateLocale), chunksTime * i + chunksTime)
-    }
-
+    const dateLocale = getDateLocale(date, locale)
     // helpers <-----
 
     const elems = [...Array(chunksCount).keys()].map((item, key) => {
-      const fromISO = formatISO(chunkFrom(key))
-      const toISO = formatISO(chunkTo(key))
+      const fromISO = formatISO(chunkFrom(key, dateLocale, chunksTime))
+      const toISO = formatISO(chunkTo(key, dateLocale, chunksTime))
 
       let isAllowTime = true
 
@@ -86,7 +78,10 @@ const ChunksArea = ({
         }
       }
 
-      const classesChunk = isAllowTime ? classes : [...classes, 'blocked']
+      const classesChunk = isAllowTime
+        ? classesChunks
+        : [...classesChunks, 'blocked']
+
       return (
         <ChunkItem
           key={`chunk_${key + 1}`}
@@ -107,12 +102,19 @@ const ChunksArea = ({
   const chunks = chunksCreate(filterLayer)
 
   return (
-    <div>
+    <div className={style.dashboardAreaWrap}>
       <div
         id={id || `ChunksArea_${+new Date()}`}
         className={style.chunksAreaWrap}
       >
-        <TimeLine>{chunks}</TimeLine>
+        <TimeLine
+          chunksCount={chunksCount}
+          chunksTime={chunksTime}
+          locale={locale}
+          date={date}
+        >
+          {chunks}
+        </TimeLine>
       </div>
       <div>
         <button
@@ -131,7 +133,7 @@ ChunksArea.propTypes = {
   chunksTime: PropTypes.number,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   chunksFree: PropTypes.array,
-  classes: PropTypes.arrayOf(PropTypes.oneOf(['fixedSize'])),
+  classesChunks: PropTypes.arrayOf(PropTypes.oneOf(['fixedSize'])),
   date: PropTypes.string,
   locale: PropTypes.string,
   handleClickChunk: PropTypes.func,
