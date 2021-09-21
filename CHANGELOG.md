@@ -1,3 +1,6 @@
+## 2021-09-22 
+Was created x-legend for chunks, added data for x-legends, sorted reserves for resources legend
+
 ## 2021-09-14
 Was created legend for chunks. Was renamed classes for classesChunks
 
