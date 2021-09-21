@@ -7,3 +7,20 @@
   }
 }
 
+.chunks {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.chunkWithLegend {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.chunkPath {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: auto;
+}

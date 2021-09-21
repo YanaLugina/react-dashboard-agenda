@@ -13,9 +13,7 @@ const App = () => {
       <ChunksArea
         id='my_dashboard'
         chunksTime={60}
-        chunksStyle={{
-          margin: '4px 4px'
-        }}
+        chunksStyle={{marginLeft: 4, marginRight: 4}}
         date='2021-08-27'
         classesChunks={['fixedSize']}
         chunksFree={[
@@ -30,6 +28,7 @@ const App = () => {
             from: '2021-08-27T08:00:00+10:00',
             to: '2021-08-27T09:00:00+10:00',
             type: 'meetup',
+            resourceId: 1,
             data: {
               title: 'Планерка'
             }
@@ -39,6 +38,17 @@ const App = () => {
             from: '2021-08-27T12:00:00+10:00',
             to: '2021-08-27T14:00:00+10:00',
             type: 'social',
+            resourceId: 1,
+            data: {
+              title: 'Встреча с клиентами'
+            }
+          },
+          {
+            id: 2,
+            from: '2021-08-27T10:00:00+10:00',
+            to: '2021-08-27T11:00:00+10:00',
+            type: 'social',
+            resourceId: 2,
             data: {
               title: 'Встреча с клиентами'
             }
@@ -48,12 +58,17 @@ const App = () => {
             from: '2021-08-27T12:00:00+10:00',
             to: '2021-08-27T15:00:00+10:00',
             type: 'meetup',
+            resourceId: 2,
             data: {
               title: 'Вечеринка'
             }
           }
         ]}
         types={[{id: 'meetup', color: '#E9F6FB'}, { id: 'social', color: '#f7c0ea' }]}
+        resources={[
+          { id: 1, label: 'first', title: 'First', description: 'La-la-la', image: '' },
+          { id: 2, label: 'second', title: 'Sirst', description: 'Sa-sa-sa', image: '' }
+        ]}
       />
     </div>
 

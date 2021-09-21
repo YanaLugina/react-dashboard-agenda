@@ -1,11 +1,22 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ChunkItem from '../ChunkItem'
-import TimeLine from '../TimeLine'
+// import TimeLine from '../TimeLine'
 import { formatISO } from 'date-fns'
 
 import style from './ChunksArea.module.scss'
 import { chunkFrom, dateInRange, getDateLocale, chunkTo } from '../../utils'
+
+function getObjectWithLegends(reserves, fieldName) {
+  return reserves.reduce((accum, item) => {
+    if (accum[item[fieldName]]) {
+      accum[item[fieldName]].push(item)
+    } else {
+      accum[item[fieldName]] = [item]
+    }
+    return accum
+  }, {})
+}
 
 const ChunksArea = ({
   chunksStyle,
@@ -17,7 +28,8 @@ const ChunksArea = ({
   handleClickChunk = () => {},
   classesChunks = [],
   reserveTimes = [],
-  types = []
+  types = [],
+  resources = []
 }) => {
   const [filterLayer, setFilterLayer] = useState(['meetup'])
   const chunksCount = (24 * 60) / chunksTime
@@ -26,7 +38,7 @@ const ChunksArea = ({
     handleClickChunk(from, to, state, more)
   }
 
-  const chunksCreate = (filterLayer) => {
+  const chunksCreate = (filterLayer, reserveTimes) => {
     // helpers ----->
     const dateLocale = getDateLocale(date, locale)
     // helpers <-----
@@ -74,7 +86,17 @@ const ChunksArea = ({
       if (chunksStyle) {
         styleItem = {
           ...styleItem,
-          ...chunksStyle
+          marginLeft: chunksStyle.marginLeft,
+          marginRight: chunksStyle.marginRight,
+          marginTop: chunksStyle.marginTop,
+          marginBottom: chunksStyle.marginBottom,
+          width: chunksStyle.width,
+          borderRadius: chunksStyle.borderRadius
+        }
+
+        if (chunksStyle.border) {
+          delete styleItem.borderColor
+          styleItem.border = chunksStyle.border
         }
       }
 
@@ -99,7 +121,19 @@ const ChunksArea = ({
     return elems
   }
 
-  const chunks = chunksCreate(filterLayer)
+  const chunksNew = getObjectWithLegends(reserveTimes, 'resourceId')
+
+  // const chunks = chunksCreate(filterLayer, reserveTimes);
+  const chunks = Object.keys(chunksNew).map((item) => {
+    const data = resources.find((leg) => leg.id === +item)
+    const chunksPath = chunksCreate(filterLayer, chunksNew[item])
+    return (
+      <div className={style.chunkWithLegend} key={'chunksPath_' + item}>
+        <div>{data?.title}</div>
+        <div className={style.chunkPath}>{chunksPath}</div>
+      </div>
+    )
+  })
 
   return (
     <div className={style.dashboardAreaWrap}>
@@ -107,14 +141,15 @@ const ChunksArea = ({
         id={id || `ChunksArea_${+new Date()}`}
         className={style.chunksAreaWrap}
       >
-        <TimeLine
+        {/* <TimeLine
           chunksCount={chunksCount}
           chunksTime={chunksTime}
           locale={locale}
           date={date}
-        >
-          {chunks}
-        </TimeLine>
+          betweenAndWidth={}
+        > */}
+        <div className={style.chunks}>{chunks}</div>
+        {/* </TimeLine> */}
       </div>
       <div>
         <button
@@ -137,7 +172,8 @@ ChunksArea.propTypes = {
   date: PropTypes.string,
   locale: PropTypes.string,
   handleClickChunk: PropTypes.func,
-  chunksStyle: PropTypes.object
+  chunksStyle: PropTypes.object,
+  resources: PropTypes.array
 }
 
 export default ChunksArea
