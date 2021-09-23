@@ -1,3 +1,6 @@
+## 2021-09-24
+ Was created XLegend component for x-legend information
+
 ## 2021-09-22 
 Was created x-legend for chunks, added data for x-legends, sorted reserves for resources legend
 
