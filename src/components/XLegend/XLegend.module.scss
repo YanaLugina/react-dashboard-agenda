@@ -1,0 +1,39 @@
+.xLegend {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 15px 12px 15px 15px;
+  width: 228px;
+  min-height: 28px;
+  align-items: center;
+    .imageWrap {
+      height: 48px;
+      width: 48px;
+      display: flex;
+      align-items: center;
+      .image {
+        height: 48px;
+        width: auto;
+      }
+    }
+    .text {
+      padding-left: 14px;
+      display: flex;
+      flex-flow: column nowrap;
+      flex-grow: 1;
+      align-items: flex-start;
+      .title {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 19px;
+        color: rgba(0, 0, 0, 0.85);
+      }
+      .description {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 18px;
+        color: #949DA8;
+      }
+  }
+}

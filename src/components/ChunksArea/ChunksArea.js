@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ChunkItem from '../ChunkItem'
 // import TimeLine from '../TimeLine'
 import { formatISO } from 'date-fns'
+import XLegend from '../XLegend'
 
 import style from './ChunksArea.module.scss'
 import { chunkFrom, dateInRange, getDateLocale, chunkTo } from '../../utils'
@@ -29,7 +30,8 @@ const ChunksArea = ({
   classesChunks = [],
   reserveTimes = [],
   types = [],
-  resources = []
+  resources = [],
+  classes = []
 }) => {
   const [filterLayer, setFilterLayer] = useState(['meetup'])
   const chunksCount = (24 * 60) / chunksTime
@@ -129,7 +131,7 @@ const ChunksArea = ({
     const chunksPath = chunksCreate(filterLayer, chunksNew[item])
     return (
       <div className={style.chunkWithLegend} key={'chunksPath_' + item}>
-        <div>{data?.title}</div>
+        <XLegend resourceData={data} classes={classes} />
         <div className={style.chunkPath}>{chunksPath}</div>
       </div>
     )
@@ -173,7 +175,8 @@ ChunksArea.propTypes = {
   locale: PropTypes.string,
   handleClickChunk: PropTypes.func,
   chunksStyle: PropTypes.object,
-  resources: PropTypes.array
+  resources: PropTypes.array,
+  classes: PropTypes.array
 }
 
 export default ChunksArea
