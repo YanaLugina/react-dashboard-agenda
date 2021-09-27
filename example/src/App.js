@@ -68,8 +68,8 @@ const App = () => {
         ]}
         types={[{id: 'meetup', color: '#E9F6FB'}, { id: 'social', color: '#f7c0ea' }]}
         resources={[
-          { id: 1, label: 'first', title: 'First', description: 'La-la-la', image: img1 },
-          { id: 2, label: 'second', title: 'Sirst', description: 'Sa-sa-sa', image: img2 }
+          { id: 1, label: 'first', title: 'First hero', description: 'La-la-la', image: img1 },
+          { id: 2, label: 'second', title: 'Second hero', description: 'Sa-sa-sa', image: img2 }
         ]}
       />
     </div>

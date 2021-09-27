@@ -14,7 +14,11 @@ const XLegend = ({ resourceData, withoutImg = false, classes = [] }) => {
         {withoutImg ? (
           ''
         ) : (
-          <img className={style.image} src={resourceData?.image || avatar} alt='ava' />
+          <img
+            className={style.image}
+            src={resourceData?.image || avatar}
+            alt='ava'
+          />
         )}
       </div>
       <div className={style.text}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ChunkItem from '../ChunkItem'
 // import TimeLine from '../TimeLine'
-import { formatISO } from 'date-fns'
+import { formatISO, format } from 'date-fns'
 import XLegend from '../XLegend'
 
 import style from './ChunksArea.module.scss'
@@ -46,8 +46,10 @@ const ChunksArea = ({
     // helpers <-----
 
     const elems = [...Array(chunksCount).keys()].map((item, key) => {
-      const fromISO = formatISO(chunkFrom(key, dateLocale, chunksTime))
-      const toISO = formatISO(chunkTo(key, dateLocale, chunksTime))
+      const dateFrom = chunkFrom(key, dateLocale, chunksTime)
+      const dateTo = chunkTo(key, dateLocale, chunksTime)
+      const fromISO = formatISO(dateFrom)
+      const toISO = formatISO(dateTo)
 
       let isAllowTime = true
 
@@ -113,6 +115,11 @@ const ChunksArea = ({
           isAllow={isAllowTime}
           classes={classesChunk}
           styleItem={styleItem}
+          label={
+            isCheckedTime.isBusy
+              ? `${format(dateFrom, 'HH:mm')} ${format(dateTo, 'HH:mm')}`
+              : ''
+          }
           handleClickOnFree={() =>
             handleClickOnFree(fromISO, toISO, isAllowTime, isCheckedTime)
           }
