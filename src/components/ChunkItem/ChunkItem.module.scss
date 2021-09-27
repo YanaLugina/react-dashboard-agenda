@@ -9,6 +9,11 @@
   border: 1px solid #CCD1D9;
   border-radius: 4px;
   cursor: pointer;
+  color: #5A72BF;
+
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
   &.blocked {
     background-color: #E4E7EB;
     border-color: #E4E7EB;
