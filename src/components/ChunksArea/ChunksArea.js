@@ -57,7 +57,7 @@ const ChunksArea = ({
         isAllowTime = dateInRange(fromISO, toISO, chunksFree)
       }
 
-      let isCheckedTime = { type: '', isBusy: false, data: {} }
+      let isCheckedTimes = [{ type: '', isBusy: false, data: {} }]
       const reserveTimesFiltered =
         reserveTimes.length > 0
           ? reserveTimes.filter((item) =>
@@ -68,7 +68,7 @@ const ChunksArea = ({
           : reserveTimes
 
       if (reserveTimesFiltered.length > 0 === true) {
-        isCheckedTime = dateInRange(
+        isCheckedTimes = dateInRange(
           fromISO,
           toISO,
           reserveTimesFiltered,
@@ -79,7 +79,9 @@ const ChunksArea = ({
 
       let styleItem
 
-      const typeFind = types.find((type) => type.id === isCheckedTime.type)
+      const typeFind = types.find((type) =>
+        isCheckedTimes.map((item) => item.type).includes(type.id)
+      )
 
       if (types && typeFind) {
         styleItem = {
@@ -116,12 +118,12 @@ const ChunksArea = ({
           classes={classesChunk}
           styleItem={styleItem}
           label={
-            isCheckedTime.isBusy
+            typeFind
               ? `${format(dateFrom, 'HH:mm')} ${format(dateTo, 'HH:mm')}`
               : ''
           }
           handleClickOnFree={() =>
-            handleClickOnFree(fromISO, toISO, isAllowTime, isCheckedTime)
+            handleClickOnFree(fromISO, toISO, isAllowTime, isCheckedTimes)
           }
         />
       )
