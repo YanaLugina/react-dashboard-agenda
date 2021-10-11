@@ -15,7 +15,7 @@ function dateInRange(
   }
 
   let allow = false
-  let objAllow = { isBusy: false, type: '', data: {} }
+  let objAllow = [{ isBusy: false, type: '', data: {} }]
 
   for (let i = 0; i < arrAllowTimeRanges.length; i++) {
     if (
@@ -37,7 +37,7 @@ function dateInRange(
           ) !== -1
         )
         if (allow) {
-          objAllow = { isBusy: true, ...arrAllowTimeRanges[i] }
+          objAllow = [{ isBusy: true, ...arrAllowTimeRanges[i] }]
         }
       }
     }
