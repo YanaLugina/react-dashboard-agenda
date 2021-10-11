@@ -75,6 +75,7 @@ const ChunksArea = ({
           ['from', 'to'],
           true
         )
+        console.log('isCheckedTime', isCheckedTimes)
       }
 
       let styleItem
