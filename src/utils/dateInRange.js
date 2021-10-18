@@ -2,9 +2,9 @@ import { compareDesc } from 'date-fns'
 function dateInRange(
   dateFrom,
   dateTo,
-  arrAllowTimeRanges,
+  chunksFree,
   rangeNames = ['from', 'to'],
-  returnObject = false
+  arrAllowTimeRanges
 ) {
   if (
     Array.isArray(arrAllowTimeRanges) === false ||
@@ -15,7 +15,30 @@ function dateInRange(
   }
 
   let allow = false
-  let objAllow = [{ isBusy: false, type: '', data: {} }]
+
+  let objAllow = []
+
+  // console.log('----arrAllowTimeRanges', dateFrom, dateTo, arrAllowTimeRanges)
+
+  for (let i = 0; i < chunksFree.length; i++) {
+    if (
+      Object.prototype.hasOwnProperty.call(chunksFree[i], rangeNames[0]) &&
+      Object.prototype.hasOwnProperty.call(chunksFree[i], rangeNames[1])
+    ) {
+      if (allow === false) {
+        allow = !!(
+          compareDesc(
+            new Date(chunksFree[i][rangeNames[0]]),
+            new Date(dateFrom)
+          ) !== -1 &&
+          compareDesc(
+            new Date(dateTo),
+            new Date(chunksFree[i][rangeNames[1]])
+          ) !== -1
+        )
+      }
+    }
+  }
 
   for (let i = 0; i < arrAllowTimeRanges.length; i++) {
     if (
@@ -25,28 +48,25 @@ function dateInRange(
       ) &&
       Object.prototype.hasOwnProperty.call(arrAllowTimeRanges[i], rangeNames[1])
     ) {
-      if (allow === false) {
-        allow = !!(
-          compareDesc(
-            new Date(arrAllowTimeRanges[i][rangeNames[0]]),
-            new Date(dateFrom)
-          ) !== -1 &&
-          compareDesc(
-            new Date(dateTo),
-            new Date(arrAllowTimeRanges[i][rangeNames[1]])
-          ) !== -1
-        )
-        if (allow) {
-          objAllow = [{ isBusy: true, ...arrAllowTimeRanges[i] }]
-        }
+      if (
+        compareDesc(
+          new Date(arrAllowTimeRanges[i][rangeNames[0]]),
+          new Date(dateFrom)
+        ) !== -1 &&
+        compareDesc(
+          new Date(dateTo),
+          new Date(arrAllowTimeRanges[i][rangeNames[1]])
+        ) !== -1
+      ) {
+        objAllow = [...objAllow, arrAllowTimeRanges[i]]
       }
     }
   }
 
-  if (returnObject) {
-    return objAllow
+  return {
+    isAllowTime: allow,
+    objAllow: objAllow
   }
-  return allow
 }
 
 export default dateInRange
