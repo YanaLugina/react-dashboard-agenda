@@ -6,8 +6,8 @@ import img1 from './assets/avatar~hgQOkIra.svg'
 import img2 from './assets/avatar2~IUSznSPb.svg'
 
 const App = () => {
-  const handleClickChunk = (from, to, state, more) => {
-    console.log('click on', from, ' - ', to, ', isAllowTime: ', state, more)
+  const handleClickChunk = (from, to, state) => {
+    console.log('click on', from, ' - ', to, 'dataFromChunk: ', state)
   }
 
   return (
@@ -76,7 +76,7 @@ const App = () => {
             }
           }
         ]}
-        types={[{id: 'meetup', color: '#E9F6FB'}, { id: 'social', color: '#f7c0ea' }]}
+        types={[{id: 'meetup', color: 'rgb(233, 246, 251)'}, { id: 'social', color: 'rgb(247, 192, 234)' }]}
         resources={[
           { id: 1, label: 'first', title: 'First hero', description: 'La-la-la', image: img1 },
           { id: 2, label: 'second', title: 'Second hero', description: 'Sa-sa-sa', image: img2 }

@@ -51,13 +51,9 @@ const ChunksArea = ({
       const fromISO = formatISO(dateFrom)
       const toISO = formatISO(dateTo)
 
-      let isAllowTime = true
+      // let isAllowTime = true
 
-      if (chunksFree.length > 0 === true) {
-        isAllowTime = dateInRange(fromISO, toISO, chunksFree)
-      }
-
-      let isCheckedTimes = [{ type: '', isBusy: false, data: {} }]
+      // const isCheckedTimes = [{ type: '', isBusy: false, data: {} }]
       const reserveTimesFiltered =
         reserveTimes.length > 0
           ? reserveTimes.filter((item) =>
@@ -67,22 +63,24 @@ const ChunksArea = ({
             )
           : reserveTimes
 
-      if (reserveTimesFiltered.length > 0 === true) {
-        isCheckedTimes = dateInRange(
-          fromISO,
-          toISO,
-          reserveTimesFiltered,
-          ['from', 'to'],
-          true
-        )
-        console.log('isCheckedTime', isCheckedTimes)
-      }
-
+      const {
+        objAllow = [{ type: '', isBusy: false, data: {} }],
+        isAllowTime = false
+      } = dateInRange(
+        fromISO,
+        toISO,
+        chunksFree.length > 0 === true ? chunksFree : [],
+        ['from', 'to'],
+        reserveTimesFiltered.length > 0 === true ? reserveTimesFiltered : []
+      )
+      /*
+      console.log('reserveTimesFiltered', reserveTimesFiltered)
+      console.log('---objAllow', objAllow) */
       let styleItem
 
-      const typeFind = types.find((type) =>
-        isCheckedTimes.map((item) => item.type).includes(type.id)
-      )
+      const typeFind = types.find((type) => {
+        return objAllow.map((item) => item.type).includes(type.id)
+      })
 
       if (types && typeFind) {
         styleItem = {
@@ -123,9 +121,7 @@ const ChunksArea = ({
               ? `${format(dateFrom, 'HH:mm')} ${format(dateTo, 'HH:mm')}`
               : ''
           }
-          handleClickOnFree={() =>
-            handleClickOnFree(fromISO, toISO, isAllowTime, isCheckedTimes)
-          }
+          handleClickOnFree={() => handleClickOnFree(fromISO, toISO, objAllow)}
         />
       )
     })
