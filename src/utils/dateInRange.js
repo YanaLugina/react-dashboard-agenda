@@ -18,8 +18,6 @@ function dateInRange(
 
   let objAllow = []
 
-  // console.log('----arrAllowTimeRanges', dateFrom, dateTo, arrAllowTimeRanges)
-
   for (let i = 0; i < chunksFree.length; i++) {
     if (
       Object.prototype.hasOwnProperty.call(chunksFree[i], rangeNames[0]) &&

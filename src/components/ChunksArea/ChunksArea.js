@@ -73,9 +73,7 @@ const ChunksArea = ({
         ['from', 'to'],
         reserveTimesFiltered.length > 0 === true ? reserveTimesFiltered : []
       )
-      /*
-      console.log('reserveTimesFiltered', reserveTimesFiltered)
-      console.log('---objAllow', objAllow) */
+
       let styleItem
 
       const typeFind = types.find((type) => {
