@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import ChunkItem from '../ChunkItem'
 // import TimeLine from '../TimeLine'
@@ -109,8 +109,10 @@ const ChunksArea = ({
 
       return (
         <ChunkItem
-          key={`chunk_${key + 1}`}
-          id={key + 1}
+          key={`chunk_${item + 1}_${reserveTimesFiltered[0]?.resourceId}`}
+          id={
+            'ChunkItem_' + item + 1 + '_' + reserveTimesFiltered[0]?.resourceId
+          }
           isAllow={isAllowTime}
           classes={classesChunk}
           styleItem={styleItem}
@@ -183,4 +185,4 @@ ChunksArea.propTypes = {
   classes: PropTypes.array
 }
 
-export default ChunksArea
+export default memo(ChunksArea)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import style from './ChunkItem.module.scss'
 import PropTypes from 'prop-types'
 
@@ -31,4 +31,4 @@ ChunkItem.propTypes = {
   styleItem: PropTypes.object
 }
 
-export default ChunkItem
+export default memo(ChunkItem)
