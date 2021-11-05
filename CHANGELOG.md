@@ -1,3 +1,6 @@
+## 2021-11-05
+Was added memo on chunks and chunkArea, fixed ids and keys for chunks
+
 ## 2021-09-28
 Was added labels on chunks with time from and time to for chunk. Was created around avatar for xLegenda.
 
